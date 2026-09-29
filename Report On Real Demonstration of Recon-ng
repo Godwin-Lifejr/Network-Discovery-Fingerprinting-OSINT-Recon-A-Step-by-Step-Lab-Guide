@@ -1,0 +1,633 @@
+# 🔎 Recon-ng Web Reconnaissance Lab
+
+> **Cybersecurity Practical Lab | Reconnaissance & Information Gathering**
+
+## 📌 Overview
+
+This lab demonstrates the use of **Recon-ng**, a modular open-source reconnaissance framework, to perform controlled web reconnaissance and information gathering.
+
+The practical exercise covers:
+
+* Recon-ng framework initialization
+* Marketplace module discovery
+* Installing reconnaissance modules
+* Host discovery
+* Web resource enumeration
+* Identifying potentially interesting files
+* Recording and analyzing reconnaissance results
+* Applying ethical and safety controls during security testing
+
+---
+
+## ⚖️ Ethical Authorization & Safety Scope
+
+This laboratory exercise is intended **strictly for authorized cybersecurity education, testing, and research**.
+
+### Authorization Requirement
+
+The techniques demonstrated in this repository should only be performed against:
+
+* Systems you own
+* Systems for which you have explicit written authorization
+* Intentionally vulnerable laboratory environments
+* CTF or cybersecurity training platforms that permit testing
+
+Do **not** use these techniques against third-party systems without permission.
+
+### Safety Boundaries
+
+This exercise is limited to reconnaissance and information gathering.
+
+No attempt was made to:
+
+* Exploit vulnerabilities
+* Obtain unauthorized access
+* Bypass authentication
+* Modify or delete data
+* Deploy malware
+* Establish persistence
+* Conduct denial-of-service activity
+* Access private information
+
+The purpose is to understand how reconnaissance tools work and how discovered information can be interpreted from a defensive-security perspective.
+
+---
+
+# 🎯 Objectives
+
+By completing this lab, the following skills are demonstrated:
+
+1. Understanding the Recon-ng interface.
+2. Searching the Recon-ng marketplace.
+3. Installing reconnaissance modules.
+4. Loading and configuring modules.
+5. Performing host discovery.
+6. Identifying web-accessible resources.
+7. Understanding reconnaissance results.
+8. Documenting security findings professionally.
+9. Applying ethical testing boundaries.
+10. Preparing cybersecurity practical work for GitHub.
+
+---
+
+# 🛠️ Tools & Technologies
+
+| Tool                        | Purpose                                     |
+| --------------------------- | ------------------------------------------- |
+| **Recon-ng**                | Web reconnaissance framework                |
+| **HackerTarget module**     | Host/domain discovery                       |
+| **Interesting File Finder** | Identification of predictable web resources |
+| **Kali Linux**              | Security testing environment                |
+| **HackerTarget API**        | Host discovery source                       |
+
+---
+
+# 💻 Lab Environment
+
+**Operating System:** Kali Linux
+**Framework:** Recon-ng v5.1.2
+**Testing Type:** Passive/low-impact reconnaissance
+**Target:** `korlinktech.com`
+**Purpose:** Educational cybersecurity laboratory exercise
+
+---
+
+# 1. 🚀 Starting Recon-ng
+
+Recon-ng was launched from the terminal.
+
+```bash
+recon-ng
+```
+
+The framework displayed its startup information and available commands.
+
+The `help` command was then used to inspect the available functionality:
+
+```text
+help
+```
+
+Important Recon-ng commands include:
+
+```text
+marketplace
+modules
+options
+info
+load
+run
+```
+
+These commands provide access to Recon-ng's module marketplace, configuration options, module information, and execution functionality.
+
+---
+
+# 2. 🛒 Recon-ng Marketplace
+
+The marketplace was searched to identify available reconnaissance modules.
+
+```bash
+marketplace search
+```
+
+The search returned numerous modules covering areas such as:
+
+* Domains
+* Hosts
+* Credentials
+* Contacts
+* Metadata
+* Information disclosure
+* Vulnerability discovery
+
+The marketplace makes Recon-ng extensible by allowing users to install modules for specific reconnaissance tasks.
+
+---
+
+# 3. 🔍 Searching for HackerTarget
+
+The HackerTarget module was specifically searched for:
+
+```bash
+marketplace search hackertarget
+```
+
+The relevant module was identified as:
+
+```text
+recon/domains-hosts/hackertarget
+```
+
+The module was then installed:
+
+```bash
+marketplace install recon/domains-hosts/hackertarget
+```
+
+Installation completed successfully.
+
+---
+
+# 4. 📖 Examining the HackerTarget Module
+
+The module was loaded:
+
+```bash
+modules load recon/domains-hosts/hackertarget
+```
+
+The module information was then inspected:
+
+```bash
+info
+```
+
+The module was identified as:
+
+**HackerTarget Lookup**
+
+Its purpose is to use the HackerTarget service to identify host information and update the Recon-ng hosts database.
+
+---
+
+# 5. ⚙️ Configuring the Target
+
+The target source was configured:
+
+```bash
+options set SOURCE korlinktech.com
+```
+
+The configuration was then executed:
+
+```bash
+run
+```
+
+---
+
+# 6. 🌐 Host Discovery Results
+
+The HackerTarget module returned the following result:
+
+| Host              | IP Address      |
+| ----------------- | --------------- |
+| `korlinktech.com` | `104.21.23.191` |
+
+The Recon-ng summary reported:
+
+```text
+1 total (1 new) hosts found.
+```
+
+### Observation
+
+The reconnaissance process successfully identified a host associated with the configured domain.
+
+The exercise demonstrates how reconnaissance information can be collected and stored within Recon-ng without attempting to exploit the identified system.
+
+---
+
+# 7. 📂 Installing Interesting File Finder
+
+A second reconnaissance module was installed to identify potentially interesting web-accessible resources.
+
+The module was searched through the marketplace and installed:
+
+```bash
+marketplace install discovery/info_disclosure/interesting_files
+```
+
+The module was then loaded:
+
+```bash
+modules load discovery/info_disclosure/interesting_files
+```
+
+The module information was inspected:
+
+```bash
+info
+```
+
+The module is designed to check hosts for files and resources located at predictable paths.
+
+---
+
+# 8. ⚙️ Interesting File Finder Configuration
+
+The target was configured:
+
+```bash
+options set SOURCE korlinktech.com
+```
+
+The module was then executed:
+
+```bash
+run
+```
+
+The module tested a number of commonly known web resource paths.
+
+---
+
+# 9. 📊 Web Resource Enumeration Results
+
+The following resources were observed during the exercise:
+
+| Resource           | Result          |
+| ------------------ | --------------- |
+| `/robots.txt`      | **200 — Found** |
+| `/sitemap.xml`     | 404 — Not Found |
+| `/sitemap.xml.gz`  | 404 — Not Found |
+| `/crossdomain.xml` | Error           |
+| `/phpinfo.php`     | Error           |
+| `/test.php`        | Error           |
+| `/elmah.axd`       | 404 — Not Found |
+| `/server-status`   | Error           |
+| `/jmx-console/`    | Error           |
+| `/admin-console/`  | 404 — Not Found |
+| `/web-console/`    | 404 — Not Found |
+
+The module reported:
+
+```text
+1 interesting files found
+```
+
+The discovered resource was downloaded to the Recon-ng workspace.
+
+---
+
+# 10. 🔎 Analysis of Findings
+
+## Host Discovery
+
+The HackerTarget module identified:
+
+```text
+korlinktech.com
+104.21.23.191
+```
+
+This demonstrates the value of reconnaissance in establishing an initial understanding of a target's externally observable infrastructure.
+
+## Web Resource Discovery
+
+The Interesting File Finder identified:
+
+```text
+/robots.txt
+```
+
+with an HTTP status of:
+
+```text
+200 OK
+```
+
+The remaining tested paths either returned:
+
+* `404 Not Found`
+* Errors
+* Or no successful discovery
+
+### Security Significance
+
+Predictable web resources can sometimes expose useful information about:
+
+* Website structure
+* Crawling restrictions
+* Administrative paths
+* Application technologies
+* Development artifacts
+* Server configuration
+
+However, **the existence of a resource does not by itself indicate a vulnerability**.
+
+Further investigation would require explicit authorization and appropriate validation.
+
+---
+
+# 11. 🛡️ Defensive Security Perspective
+
+Reconnaissance is an important phase of both offensive and defensive cybersecurity.
+
+From a defensive perspective, organizations should understand what information is publicly discoverable about their infrastructure.
+
+Security teams can use similar reconnaissance techniques to identify:
+
+* Unexpected exposed hosts
+* Publicly accessible files
+* Forgotten development resources
+* Administrative interfaces
+* Unnecessary information disclosure
+* Incorrect web-server configurations
+
+This supports an organization's external attack-surface management process.
+
+---
+
+# 12. 🔐 Recommended Security Controls
+
+Organizations can reduce unnecessary information exposure by:
+
+### 1. Minimize Public Exposure
+
+Only expose services that are required for business operations.
+
+### 2. Remove Unnecessary Files
+
+Development and testing files should not remain on production systems.
+
+Examples include:
+
+```text
+phpinfo.php
+test.php
+```
+
+### 3. Review Web Server Configuration
+
+Administrative interfaces should not be unnecessarily exposed to the public Internet.
+
+### 4. Monitor External Attack Surface
+
+Organizations should periodically identify externally visible:
+
+* Domains
+* Subdomains
+* IP addresses
+* Services
+* Web applications
+* Public files
+
+### 5. Apply Least Privilege
+
+Administrative resources should require appropriate authentication and authorization.
+
+### 6. Conduct Authorized Security Assessments
+
+Regular vulnerability assessments and penetration tests can help identify unintended exposure before attackers discover it.
+
+---
+
+# 13. ⚠️ Limitations
+
+This practical exercise has several limitations.
+
+### Limited Scope
+
+The exercise focused on reconnaissance rather than exploitation or vulnerability validation.
+
+### Single Target
+
+Only the configured domain was examined.
+
+### Limited Module Coverage
+
+Only selected Recon-ng modules were used.
+
+### No Exploitation
+
+No attempt was made to exploit any discovered resource.
+
+### Reconnaissance ≠ Vulnerability
+
+Finding a hostname, IP address, or web resource does not automatically mean that the system is vulnerable.
+
+---
+
+# 14. 🧠 Skills Demonstrated
+
+This laboratory demonstrates practical knowledge of:
+
+* Recon-ng
+* OSINT fundamentals
+* Passive reconnaissance
+* Host discovery
+* Domain reconnaissance
+* Web enumeration
+* Information disclosure analysis
+* Recon-ng marketplace management
+* Module configuration
+* Security documentation
+* Ethical hacking methodology
+* Attack-surface awareness
+
+---
+
+# 15. 📝 Recon-ng Command Reference
+
+```bash
+# Start Recon-ng
+recon-ng
+
+# Display help
+help
+
+# Search marketplace
+marketplace search
+
+# Search for a specific module
+marketplace search hackertarget
+
+# Install module
+marketplace install recon/domains-hosts/hackertarget
+
+# Load module
+modules load recon/domains-hosts/hackertarget
+
+# Display module information
+info
+
+# Configure target
+options set SOURCE korlinktech.com
+
+# Execute module
+run
+```
+
+### Interesting File Finder
+
+```bash
+marketplace install discovery/info_disclosure/interesting_files
+
+modules load discovery/info_disclosure/interesting_files
+
+info
+
+options set SOURCE korlinktech.com
+
+run
+```
+
+---
+
+# 16. 📸 Screenshots
+
+Screenshots can be added to document each major stage of the practical.
+
+Recommended screenshots:
+
+```text
+screenshots/
+├── 01-recon-ng-startup.png
+├── 02-marketplace-search.png
+├── 03-hackertarget-module.png
+├── 04-host-discovery.png
+├── 05-interesting-file-finder.png
+└── 06-final-results.png
+```
+
+Add them to this README using:
+
+```markdown
+![Recon-ng Startup](screenshots/01-recon-ng-startup.png)
+```
+
+Example:
+
+```markdown
+## Recon-ng Startup
+
+![Recon-ng Startup](screenshots/01-recon-ng-startup.png)
+```
+
+---
+
+# 17. 📁 Recommended GitHub Repository Structure
+
+```text
+recon-ng-web-reconnaissance/
+│
+├── README.md
+│
+├── screenshots/
+│   ├── 01-recon-ng-startup.png
+│   ├── 02-marketplace-search.png
+│   ├── 03-hackertarget-module.png
+│   ├── 04-host-discovery.png
+│   ├── 05-interesting-file-finder.png
+│   └── 06-final-results.png
+│
+└── notes/
+    └── recon-ng-commands.txt
+```
+
+---
+
+# 18. 🎓 Learning Outcome
+
+After completing this lab, the learner should be able to:
+
+* Navigate the Recon-ng framework
+* Search and install modules
+* Load reconnaissance modules
+* Configure module options
+* Perform basic host discovery
+* Identify publicly accessible web resources
+* Interpret reconnaissance results
+* Document cybersecurity practical exercises
+* Understand the difference between information discovery and vulnerability exploitation
+* Apply ethical and authorized testing principles
+
+---
+
+# 19. ✅ Conclusion
+
+This practical demonstrated how Recon-ng can be used as a structured reconnaissance framework for collecting publicly observable information.
+
+The exercise covered the complete workflow from:
+
+```text
+Recon-ng Initialization
+        ↓
+Marketplace Search
+        ↓
+Module Installation
+        ↓
+Module Configuration
+        ↓
+Host Discovery
+        ↓
+Web Resource Enumeration
+        ↓
+Result Analysis
+        ↓
+Security Documentation
+```
+
+The practical reinforces an important cybersecurity principle:
+
+> **Reconnaissance provides information; that information must be interpreted carefully before drawing security conclusions.**
+
+All reconnaissance activities should be conducted within an explicitly authorized scope.
+
+---
+
+## ⚠️ Disclaimer
+
+This repository is provided for **educational and authorized cybersecurity testing purposes only**.
+
+The techniques demonstrated here must not be used against systems, networks, applications, or infrastructure without appropriate authorization.
+
+The author does not encourage unauthorized access, exploitation, disruption, or misuse of security tools.
+
+---
+
+## 👨‍💻 Author
+
+**Cybersecurity Practical Laboratory**
+
+**Focus Areas:**
+
+`Reconnaissance` • `OSINT` • `Network Security` • `Web Security` • `Ethical Hacking` • `Information Gathering`
+
+---
+
+### ⭐ Learning Philosophy
+
+> **Learn the technique. Understand the risk. Practice ethically. Document professionally. Defend effectively.**
