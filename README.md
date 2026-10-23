@@ -1,5 +1,8 @@
 # Network-Discovery-Fingerprinting-OSINT-Recon-A-Step-by-Step-Lab-Guide
 
+> **Portfolio focus:** A lab guide for learning asset discovery, service fingerprinting, and OSINT concepts. Keep active scanning within an authorised scope and follow service terms for public data sources.
+
+
 # Network Discovery, Fingerprinting & OSINT Recon — A Step-by-Step Lab Guide
 
 *A hands-on tutorial covering native Windows discovery, active scanning with Nmap and arp-scan on Kali, WAF detection, service/OS fingerprinting, and automated OSINT gathering with Recon-ng.*
